@@ -1,6 +1,6 @@
 ### the Letterpress Game Solver
 
-This is a interactive cli tool to solve the [Lettpress](http://www.atebits.com/letterpress/) game by Loren Brichter.
+This is a interactive cli tool to solve the [Letterpress](http://www.atebits.com/letterpress/) game by Loren Brichter.
 
 ### Requirements
 
@@ -10,24 +10,25 @@ This is a interactive cli tool to solve the [Lettpress](http://www.atebits.com/l
 
 Run
   
-  node process.js
+    node process.js
   
 Input the board letters
 
-  LETTERPRESS> go vnlgefluncezxpazgkntcyefm
-  Cost:32ms
-  ungentlemanly
-  effectually
-  effulgently
-  gentlemanly
-  ungenteelly
-  ...
+    LETTERPRESS> go vnlgefluncezxpazgkntcyefm
+    Cost:32ms
+    ungentlemanly
+    effectually
+    effulgently
+    gentlemanly
+    ungenteelly
+    ...
 
 Filter the results
   
-  LETTERPRESS> in gnpac
-  plangency
+    LETTERPRESS> in gnpac
+    plangency
 
 Exit
-  Ctrl + C
+
+    Ctrl + C
 
