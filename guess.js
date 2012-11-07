@@ -1,3 +1,5 @@
+var clc = require('cli-color');
+
 function calc_letters(word) {
   var i, c, result = {};
   for (i = 0; i < word.length; i++) {
@@ -113,7 +115,7 @@ function test_step(board, step, first) {
       board[index] = board[index] / Math.abs(board[index]);
     }
     if (is_around_mine(index, -1, 0) && is_around_mine(index, 1, 0) && is_around_mine(index, 0, -1) && is_around_mine(index, 0, 1)) {
-      board[index] = 2 * first;
+      board[index] = 2 * board[index] / Math.abs(board[index]);
     }
   }
   return board;
@@ -222,6 +224,7 @@ function Guess(boardString, possibleWordList) {
   var choose = function(board, playedWords, first, deep) {
     var choices = [], bestWeight = 0;
     self.wordList.forEach(function(word) {
+      
       if (is_played_word(playedWords, word.word)) {
         return;
       }
@@ -232,6 +235,9 @@ function Guess(boardString, possibleWordList) {
       steps.forEach(function(step) {
         var after = test_step(board, step, first);
         var weight = calc_weight(board, after, first);
+        if (weight > bestWeight) {
+          bestWeight = weight;
+        }
         choices.push({
           weight: weight,
           step: step,
@@ -248,12 +254,14 @@ function Guess(boardString, possibleWordList) {
     }
     var i, choice, nextChoices;
     for (i = 0; i < choices.length; i++) {
+      process.stdout.write((i + 1) + '.');
       choice = choices[i];
       nextChoices = choose(choice.after, playedWords.slice(0).push(choice.word), first * -1, deep - 1);
       if (nextChoices[0].weight !== 999) {
         return choices.slice(i);
       }
     }
+    console.log('');
     return [];
   };
 
@@ -261,11 +269,37 @@ function Guess(boardString, possibleWordList) {
     return choose(self.board, self.playedWords, self.first, 1)[0];
   };
 
+  self.guess_and_apply = function() {
+    var choices = choose(self.board, self.playedWords, self.first, 1);
+    if (choices.length == 0) {
+      console.log('no choice');
+      return;
+    }
+    self.apply_step(choices[0].step);
+  };
+
   self.output_board = function() {
     var i, v;
+    var deepRed = clc.xterm(231).bgXterm(196), lightRed = clc.bgXterm(210),
+        deepBlue = clc.xterm(231).bgXterm(27), lightBlue = clc.bgXterm(117);
     for (i = 0; i < self.board.length; i++) {
-      v = '  ' + self.board[i];
-      process.stdout.write(v.substring(v.length - 3) + '(' + self.boardString.charAt(i) + ') ');
+      switch(self.board[i]) {
+        case -2:
+          v = deepRed(self.boardString.charAt(i));
+          break;
+        case -1:
+          v = lightRed(self.boardString.charAt(i));
+          break;
+        case 2:
+          v = deepBlue(self.boardString.charAt(i));
+          break;
+        case 1:
+          v = lightBlue(self.boardString.charAt(i));
+          break;
+        default:
+          v = self.boardString.charAt(i);
+      }
+      process.stdout.write(v + ' ');
       if ((i + 1) % 5 == 0) {
         console.log('');
       }

@@ -39,6 +39,7 @@ rl.on('line', function(line) {
     inputPrime = solve.calc_word_prime(boardString);
     possibleWordList = solve.calc_possible_word_list(wordList, inputPrime);
     g = new guess.Guess(boardString, possibleWordList);
+    console.log('possible words:' + possibleWordList.length);
     // possibleWordList.forEach(function(word) {
     //   console.log('[' + word.word + ']');
     // });
@@ -57,8 +58,13 @@ rl.on('line', function(line) {
     g.output_board();
   } else if (command === 'run') {
     try {
-      var step = JSON.parse(line.substring(4).trim());
-      g.apply_step(step);
+      var step = line.substring(4).trim();
+      if (step.length === 0) {
+        g.guess_and_apply();
+        g.output_board();
+      } else {
+        g.apply_step(JSON.parse(step));
+      }
     } catch(e) {
       console.log('not valid step');
     }
