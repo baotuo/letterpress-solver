@@ -1,0 +1,14 @@
+{
+  "name": "letterpress_solver",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node process.js",
+    "test": "mocha test.js"
+  },
+  "dependencies": {
+    "cli-color": "*"
+  },
+  "devDependencies": {
+    "should": "*"
+  }
+}

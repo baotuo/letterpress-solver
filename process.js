@@ -1,24 +1,6 @@
 var solve = require('./solve'),
     guess = require('./guess');
 
-// console.log(calc_board_letters('bedrmnkcyaejdrxyxuntcalkr'));
-// var board_letters = 'bedrmnkcyaejdrxyxuntcalkr';
-
-// var board = new_board();
-// pretty_output_board(board, board_letters);
-
-// var steps = calc_step('xray', calc_letters('xray'), calc_board_letters(board_letters));
-// board = test_step(board, steps[0], -1);
-// pretty_output_board(board, board_letters);
-
-// steps = calc_step('mb', calc_letters('mb'), calc_board_letters(board_letters));
-// board = test_step(board, steps[0], -1);
-// pretty_output_board(board, board_letters);
-
-// steps = calc_step('crr', calc_letters('crr'), calc_board_letters(board_letters));
-// board = test_step(board, steps[0], -1);
-// pretty_output_board(board, board_letters);
-
 var wordList = solve.read_word_list('words');
 
 var readline = require('readline'),
@@ -40,9 +22,6 @@ rl.on('line', function(line) {
     possibleWordList = solve.calc_possible_word_list(wordList, inputPrime);
     g = new guess.Guess(boardString, possibleWordList);
     console.log('possible words:' + possibleWordList.length);
-    // possibleWordList.forEach(function(word) {
-    //   console.log('[' + word.word + ']');
-    // });
   } else if (command === 'in') {
     var inPrime = solve.calc_word_prime(line.substring(3));
     var count = 0;
