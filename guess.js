@@ -200,6 +200,9 @@ function Guess(boardString, possibleWordList) {
   self.wordList = possibleWordList.slice(0);
   self.first = 1;
   self.playedWords = [];
+  self.wordList.forEach(function(word) {
+    word.steps = calc_step(word.word, self.boardLetters);
+  });
 
   // self.wordList.forEach(function(word) {
   //   word.letters = calc_letters(word);
@@ -224,14 +227,13 @@ function Guess(boardString, possibleWordList) {
   var choose = function(board, playedWords, first, deep) {
     var choices = [], bestWeight = 0;
     self.wordList.forEach(function(word) {
-      
       if (is_played_word(playedWords, word.word)) {
         return;
       }
       if (bestWeight === 999) {
         return;
       }
-      var steps = calc_step(word.word, self.boardLetters);
+      var steps = word.steps;
       steps.forEach(function(step) {
         var after = test_step(board, step, first);
         var weight = calc_weight(board, after, first);
@@ -253,8 +255,12 @@ function Guess(boardString, possibleWordList) {
       return choices;
     }
     var i, choice, nextChoices;
+    console.log('choices:' + choices.length);
     for (i = 0; i < choices.length; i++) {
-      process.stdout.write((i + 1) + '.');
+      process.stdout.write('.');
+      if ((i + 1) % 1000 === 0) {
+        console.log(i);
+      }
       choice = choices[i];
       nextChoices = choose(choice.after, playedWords.slice(0).push(choice.word), first * -1, deep - 1);
       if (nextChoices[0].weight !== 999) {
