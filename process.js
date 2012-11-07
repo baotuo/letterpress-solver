@@ -60,8 +60,10 @@ rl.on('line', function(line) {
     try {
       var step = line.substring(4).trim();
       if (step.length === 0) {
+        var start = new Date().getTime();
         g.guess_and_apply();
         g.output_board();
+        console.log('cost:' + (new Date().getTime() - start) + 'ms');
       } else {
         g.apply_step(JSON.parse(step));
       }

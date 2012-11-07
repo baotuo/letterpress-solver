@@ -219,6 +219,7 @@ function Guess(boardString, possibleWordList) {
       return false;
     }
     console.log(stepWord + ' played');
+    console.log('step:' + step.join(','));
     self.board = test_step(self.board, step, self.first);
     self.first *= -1;
     self.playedWords.push(stepWord);
