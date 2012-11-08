@@ -226,7 +226,7 @@ function Guess(boardString, possibleWordList) {
   };
 
   var choose = function(board, playedWords, first, deep) {
-    var choices = [], bestWeight = 0;
+    var choices = [], bestWeight = 0, bestWord = '';
     self.wordList.forEach(function(word) {
       if (is_played_word(playedWords, word.word)) {
         return;
@@ -240,6 +240,7 @@ function Guess(boardString, possibleWordList) {
         var weight = calc_weight(board, after, first);
         if (weight > bestWeight) {
           bestWeight = weight;
+          bestWord = word.word;
         }
         choices.push({
           weight: weight,
@@ -252,7 +253,7 @@ function Guess(boardString, possibleWordList) {
     choices.sort(function(a, b) {
       return b.weight - a.weight;
     });
-    if (deep === 0) {
+    if (deep === 0 || bestWeight > 400) {
       return choices;
     }
     var i, choice, nextChoices;

@@ -47,7 +47,8 @@ rl.on('line', function(line) {
         g.apply_step(JSON.parse(step));
       }
     } catch(e) {
-      console.log('not valid step');
+      console.log(e);
+      console.log('not valid step:' + step);
     }
   }
   rl.prompt();
